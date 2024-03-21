@@ -5,14 +5,17 @@ async function logOut(){
     const domain = window.CONFIG['domain'];
     let access_token = localStorage.getItem('access_token');
 
-
-    await fetch(domain + '/logout',{
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            Authorization: 'Bearer ' + access_token
-          }
-    });
+    try{
+        await fetch(domain + '/logout',{
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + access_token
+            }
+        });
+    } catch(error){
+        console.log('error contacting endpoint to log out.');
+    }
 
     localStorage.clear();
     window.location.reload();

@@ -1,48 +1,16 @@
 import React, {useState, useEffect} from "react";
+import { Link } from "react-router-dom";
 import UserMenu from "./UserMenu";
+import { isAuthenticated } from "../../util/Authentication";
 
-async function checkLoginStatus(){
-    const domain = window.CONFIG['domain'];
-    const access_token = localStorage.getItem('access_token');
-    // const type = localStorage.getItem('token_type');
-
-    if(!access_token){
-        console.log('no access token found.')
-        return null;
-    }
-
-    const res = await fetch(domain + '/testauth',{
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authorization: 'Bearer ' + access_token
-      }
-  });
-
-    const data = await res.json();
-    
-    return (res.status===200)? data['username']: null;
-  }
 
 
 function NavBar(props){
-    const [loginStatus, updateLoginStatus] = useState(null);
+    // const [loginStatus, updateLoginStatus] = useState(null);
     const [usermenu, updateusernmenu] = useState(false);
-
-    useEffect(() => {
-        const getLoginStatus = async () => {
-            const username = await checkLoginStatus();
-            updateLoginStatus(username);
-        }
-        getLoginStatus();
-    }, [props.loggedIn]);
-
-
     let userButton;
 
-    const user = loginStatus;
-
-    
+    const user = (isAuthenticated())?localStorage.getItem('username'): null;
 
     // changes sign in to profile if user is logged in.
     if(!user){
@@ -77,18 +45,18 @@ function NavBar(props){
                     <div class="flex items-center p-2 text-gray-300 rounded-lg">
                         <h1 class="text-4xl pt-2 pb-10 break-all">Welcome to DocQA!</h1>
                     </div>
-                    <div class="flex items-center p-2 text-gray-300 rounded-lg hover:bg-gray-700 hover:cursor-pointer">
+                    <Link to="/" class="flex items-center p-2 text-gray-300 rounded-lg hover:bg-gray-700 hover:cursor-pointer">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                         </svg>
                         <span class="flex-1 ms-5 whitespace-nowrap font-medium">Chat</span>
-                    </div>
-                    <div class="flex items-center p-2 text-gray-300 rounded-lg hover:bg-gray-700 hover:cursor-pointer">
+                    </Link>
+                    <Link to="/documents" class="flex items-center p-2 text-gray-300 rounded-lg hover:bg-gray-700 hover:cursor-pointer">
                         <svg class="flex-shrink-0 w-5 h-5 transition duration-75" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2m0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1M3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>
                         </svg>
                         <span class="flex-1 ms-5 whitespace-nowrap font-medium">Documents</span>
-                    </div>
+                    </Link>
                 </div>
 
                 {userButton}

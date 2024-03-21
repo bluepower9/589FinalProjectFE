@@ -19,10 +19,10 @@ function Messages(props){
     let result = [];
     const ogMsgs = props.messages;
     let msgs = structuredClone(ogMsgs);
-    console.log('msgs: ', ogMsgs, msgs);
     const lastUser = msgs[msgs.length-1]['user'];
     
     if(lastUser==='DocQA'){
+        console.log('using typed effect');
         msgs[msgs.length-1]['msg'] = (
             <ReactTyped strings={[msgs[msgs.length-1]['msg']]} typeSpeed={25} showCursor={false}/>
         );
