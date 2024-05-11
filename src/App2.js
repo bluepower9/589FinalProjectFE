@@ -8,6 +8,8 @@ import DocsPage from './pages/DocsPage';
 import RegisterWindow from './components/LoginWindow/RegisterWindow';
 import LoginWindow from './components/LoginWindow/LoginWindow';
 import DocumentInfo from './components/DocumentInfo/DocumentInfo';
+import ResetPwpage from './pages/ResetPwPage';
+import ResetPwWindow from './components/LoginWindow/ResetPwWindow';
 
 
 const SessionId = React.createContext(localStorage.getItem('sessionId'));
@@ -19,6 +21,7 @@ class App2 extends React.Component {
       'sessionId': SessionId,
       showLoginWindow: false,
       showRegisterWindow: false,
+      showResetPwWindow: false,
       loggedIn: false,
     }
 
@@ -30,9 +33,6 @@ class App2 extends React.Component {
     this.setState({loggedIn: true});
     console.log('new state: ' + this.state['loggedIn']);
   }
-
-
-
 
 
   render() {
@@ -47,12 +47,16 @@ class App2 extends React.Component {
               <Route path="/documents" element={
                   <DocsPage />
               } />
+              <Route path="/reset" element={
+                <ResetPwpage />
+              } />
           </Routes>
           <LoginWindow trigger={this.state.showLoginWindow} setLoginWindow={(val) => this.setState({showLoginWindow: val})} 
-            setLogin={(val) => this.setState({loggedIn: val})} setRegisterWindow={(val) => this.setState({showRegisterWindow: val})}/>
+            setLogin={(val) => this.setState({loggedIn: val})} setRegisterWindow={(val) => this.setState({showRegisterWindow: val})} 
+            setResetPwWindow={(val) => this.setState({showResetPwWindow: val})}/>
           <RegisterWindow trigger={this.state.showRegisterWindow} setRegisterWindow={(val) => this.setState({showRegisterWindow: val})}
             setLoginWindow={(val) => this.setState({showLoginWindow: val})}/>
-          {/* <DocumentInfo trigger={false}/> */}
+          <ResetPwWindow trigger={this.state.showResetPwWindow} setResetPwWindow={(val) => this.setState({showResetPwWindow: val})}/>
         </BrowserRouter>
       </div>
   

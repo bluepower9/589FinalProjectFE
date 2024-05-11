@@ -1,6 +1,7 @@
 import React from "react";
 import { ReactTyped } from "react-typed";
 import DocumentInfo from "../components/DocumentInfo/DocumentInfo";
+import UploadFile from "../components/UploadFile/UploadFile";
 
 
 class DocsPage extends React.Component{
@@ -9,7 +10,8 @@ class DocsPage extends React.Component{
 
         this.state = {
             docs: [],
-            showDoc: null
+            showDoc: null,
+            uploadfile: false,
         };
 
         // this.createTestDocs();
@@ -20,7 +22,7 @@ class DocsPage extends React.Component{
         let result = [];
         for(let doc of this.state['docs']){
             let container = (
-            <div key={doc.id} id={doc.id} class="flex items-center mx-3 py-3  my-2 text-xl rounded-full hover:bg-gray-500 hover:cursor-pointer" onClick={(event) => this.showDocumentInfo(event)}>
+            <div key={doc.id} id={doc.id} removeDoc={() => this.setState({showDoc: null})} class="flex items-center mx-3 py-3  my-2 text-xl rounded-full hover:bg-gray-500 hover:cursor-pointer" onClick={(event) => this.showDocumentInfo(event)}>
                 <label id={doc.id} class="w-[350px] break-all px-5 mr-5 overflow-hidden line-clamp-1 hover:cursor-pointer">{doc.title}</label>
                     <div id={doc.id} class=" flex-1 relative overflow-hidden line-clamp-1 hover:cursor-pointer">{doc.description}</div>
                 <label id={doc.id} class ="flex ml-2 px-5 overflow-hidden hover:cursor-pointer">{doc.upload_date}</label>
@@ -104,7 +106,6 @@ class DocsPage extends React.Component{
         await this.fetchDocuments();
     }
 
-
     render(){
         let documents = this.createDocuments();
         console.log('documents length: ' + documents.length)
@@ -120,9 +121,15 @@ class DocsPage extends React.Component{
                             <h1 class="flex items-center pl-3 ">Documents</h1>
                         </div>
                     </div>
-                    <div class="relative flex flex-row w-full">
-                        <div class="flex my-2 py-5 px-auto justify-center w-[400px] bg-gray-900 rounded-full">
+                    <div class="relative flex flex-row w-full items-center">
+                        <div class="flex mb-5 py-5 px-auto justify-center w-[400px] bg-gray-900 rounded-full">
                             <ReactTyped strings={["Manage your documents here"]} typeSpeed={40} showCursor={false}/>
+                        </div>
+                        <div class="absolute right-0 p-4 bg-gray-900 rounded-3xl hover:cursor-pointer hover:bg-gray-500" onClick={() => this.setState({uploadfile: true})}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-10 h-10 transition duration-75" viewBox="0 0 16 16" >
+                                <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
+                                <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
+                            </svg>
                         </div>
                         {/* <label class="absolute flex right-0 bottom-0 justify-center mb-2 px-5 py-3 items-baseline rounded-full bg-gray-900 text-lg hover:bg-gray-900/60 hover:cursor-pointer">Delete</label> */}
                     </div>
@@ -138,6 +145,7 @@ class DocsPage extends React.Component{
                     </div>
                 </div>
                 <DocumentInfo trigger={this.state.showDoc} setTrigger={(val) => this.setState({showDoc: val})} documents={this.state.docs}/>
+                <UploadFile trigger={this.state.uploadfile} setTrigger={(val) => this.setState({uploadfile: val})}/>
             </div>
         )
     }

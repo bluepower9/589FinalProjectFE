@@ -34,6 +34,7 @@ async function handleLogin(props){
             localStorage.setItem('email', user['email']);
 
             props.setLoginWindow(false);
+            window.location.reload();
 
         } else if(status === 401){
             const msg = "Incorrect username or password."
@@ -65,6 +66,14 @@ async function handleLogin(props){
 function switchToRegisterWindow(props){
     props.setLoginWindow(false);
     props.setRegisterWindow(true);
+    props.setResetPwWindow(false);
+}
+
+
+function switchToResetPwWindow(props){
+    props.setLoginWindow(false);
+    props.setRegisterWindow(false);
+    props.setResetPwWindow(true);
 }
 
 
@@ -81,7 +90,7 @@ function LoginWindow(props){
                         <input name="username" id="usernameInput" class="flex flex-col w-full mt-2 mb-5 py-2 px-2 rounded-lg bg-gray-800"/>
                         <label class="flex flex-col">Password</label>
                         <input name="password"  id="passwordInput" class="flex flex-col w-full mt-2 mb-0 py-2 px-2 rounded-lg bg-gray-800" type="password"/>
-                        <label class="flex text-xs w-full my-0 justify-end hover:text-gray-400 hover: cursor-pointer">Forgot password</label>
+                        <label class="flex text-xs w-full my-0 justify-end hover:text-gray-400 hover: cursor-pointer" onClick={() => switchToResetPwWindow(props)}>Forgot password</label>
                         <button id="loginButton" type="button" onClick={() => handleLogin(props)} class="flex bg-gray-600 px-2 py-1 rounded-lg text-sm border-4 border-gray-800 hover:bg-gray-800">submit</button>
                     </form>
                     <div class="flex w-full flex-col">

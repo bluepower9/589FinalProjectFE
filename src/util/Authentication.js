@@ -4,7 +4,8 @@ async function validateToken () {
     // const type = localStorage.getItem('token_type');
 
     if(!access_token){
-        console.log('no access token found.')
+        console.log('no access token found.');
+        localStorage.clear();
         return null;
     }
 
