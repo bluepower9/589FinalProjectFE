@@ -19,21 +19,19 @@ function Messages(props){
     let result = [];
     const ogMsgs = props.messages;
     let msgs = structuredClone(ogMsgs);
-    console.log('msgs: ', ogMsgs, msgs);
     const lastUser = msgs[msgs.length-1]['user'];
     
     if(lastUser==='DocQA'){
+        console.log('using typed effect');
         msgs[msgs.length-1]['msg'] = (
-            <ReactTyped strings={[msgs[msgs.length-1]['msg']]} typeSpeed={25} showCursor={false}/>
+            <ReactTyped strings={[msgs[msgs.length-1]['msg']]} typeSpeed={20} showCursor={false}/>
         );
     }
-
-    
 
     //reads msgs from ChatBox state and generates li items for each.
     for(let i=msgs.length-1; i>=0; i--){
         const m = msgs[i];
-        let message = m.msg
+        let message = m.msg;
         let user = m.user
         result.push((
             <li class="flex flex-col-reverse w-full my-5 text-gray-200">
@@ -44,7 +42,7 @@ function Messages(props){
                                 {user}
                             </div>
                         </div>
-                    <div class="flex w-full justify-left pl-10 pr-3 break-words">
+                    <div class="flex w-full justify-left pl-10 pr-3 break-words whitespace-pre-line">
                         {message}
                     </div>
                 </div>

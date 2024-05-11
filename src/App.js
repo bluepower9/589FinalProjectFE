@@ -32,7 +32,7 @@ class App extends React.Component {
 
 
   newMessage(msg){
-    let msgs = this.state.messages.slice();
+    let msgs = structuredClone(this.state.messages);
     msgs.push(msg);
     this.setState({messages: msgs});
   }

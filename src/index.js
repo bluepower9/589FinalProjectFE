@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import App2 from './App2';
+import { validateToken } from './util/Authentication.js';
+
 import './styles.css';
 import reportWebVitals from './reportWebVitals';
 import setConfigs from './conf.js';
@@ -9,23 +12,15 @@ import setConfigs from './conf.js';
 console.log('settings')
 setConfigs();
 
-// localStorage.clear();
+await validateToken();
 
+// localStorage.clear()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-             
-// function autosize(){
-//   var el = this;
-//   setTimeout(function(){
-//     el.style.cssText = 'min-height:37px; height: 37px;';
-//     el.style.cssText = 'height:' + el.scrollHeight + 'px';
-//   },0);
-// }
-
 root.render(
   <body class="relative flex z-0 h-screen bg-gray-700">
-    <App />
+    <App2 />
   </body>
 );
 

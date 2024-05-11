@@ -4,19 +4,17 @@ import MessageInput from "./MessageInput";
 
 
 async function handleQuestionInput(props){
-    // TODO add API calls to backend
+
     const el = document.getElementById("questionInput");
     const txt = el.value;
 
     if(txt.trim() !== ""){
-        // let msgs = props.messages.slice();
-        // msgs.push({'msg': txt, 'user': 'You'});
-
-        props.newMessage({'msg': txt, 'user': 'You'});
+        await props.newMessage({'msg': txt, 'user': 'You'});
+        el.value="";
+        await sendQuestion(props, txt);
     }
 
     el.value = "";
-    await sendQuestion(props, txt);
 }
 
 async function sendQuestion(props, question){
@@ -24,7 +22,8 @@ async function sendQuestion(props, question){
     const access_token = localStorage.getItem('access_token');
 
     if(!access_token){
-        console.log('no access token found.')
+        console.log('no access token found.');
+        props.newMessage({'user': 'DocQA', 'msg': 'You must be logged in to ask questions.'});
         props.invalidSession();
         return null;
     }
@@ -42,7 +41,11 @@ async function sendQuestion(props, question){
 
     const data = await res.json();
     if(res.status === 200){
-        props.newMessage({'user': 'DocQA', 'msg': data['message']})
+        props.newMessage({'user': 'DocQA', 'msg': data['message']});
+    } else{
+        console.log('error sending query. Invalidating session.');
+        props.newMessage({'user': 'DocQA', 'msg': 'Unexpected error while retrieving response. Please re-login to continue.'});
+        props.invalidSession();
     }
 }
 
